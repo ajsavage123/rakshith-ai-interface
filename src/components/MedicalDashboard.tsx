@@ -1,0 +1,75 @@
+import React, { useEffect, useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { Badge } from './ui/badge';
+import { Alert, AlertDescription } from './ui/alert';
+import { Button } from './ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
+import { Pill, Heart, AlertCircle, Users, Clock, TrendingUp, Download, Share2, Edit2 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { storageService } from '@/lib/storage';
+
+interface MedicalHistory { allergies: string[]; medications: string[]; conditions: string[]; vaccinations: string[]; }
+
+const MedicalDashboard: React.FC = () => {
+  const { user } = useAuth();
+  const [medicalData, setMedicalData] = useState<MedicalHistory>({ allergies: [], medications: [], conditions: [], vaccinations: [] });
+  const [loading, setLoading] = useState(true);
+  const [userProfile, setUserProfile] = useState<any>(null);
+
+  useEffect(() => { loadMedicalData(); }, [user]);
+
+  const loadMedicalData = async () => {
+    try {
+      if (user?.uid) {
+        const history = await storageService.getMedicalHistory(user.uid);
+        if (history) {
+          setMedicalData({
+            allergies: (history.allergies || '').split(',').filter(Boolean),
+            medications: (history.medications || '').split(',').filter(Boolean),
+            conditions: (history.conditions || '').split(',').filter(Boolean),
+            vaccinations: (history.vaccinations || '').split(',').filter(Boolean),
+          });
+        }
+        const savedProfile = localStorage.getItem('userProfile');
+        if (savedProfile) setUserProfile(JSON.parse(savedProfile));
+      }
+    } catch (error) { console.error('Error loading medical data:', error); } finally { setLoading(false); }
+  };
+
+  if (loading) return <div className="text-center py-8 text-muted-foreground">Loading medical data...</div>;
+
+  const isEmpty = !medicalData.allergies.length && !medicalData.medications.length && !medicalData.conditions.length && !medicalData.vaccinations.length;
+
+  return (
+    <div className="w-full space-y-6">
+      <Card className="glass-card border-primary/20">
+        <CardHeader>
+          <CardTitle className="text-xl flex items-center gap-2 text-foreground"><Heart className="w-5 h-5 text-destructive" />Medical Profile</CardTitle>
+          <CardDescription className="text-muted-foreground">Your health overview</CardDescription>
+        </CardHeader>
+        <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[{ label: 'Allergies', count: medicalData.allergies.length, color: 'text-primary' },
+            { label: 'Medications', count: medicalData.medications.length, color: 'text-yellow-400' },
+            { label: 'Conditions', count: medicalData.conditions.length, color: 'text-destructive' },
+            { label: 'Vaccinations', count: medicalData.vaccinations.length, color: 'text-success' }
+          ].map(item => (
+            <div key={item.label} className="glass-card p-3 rounded-xl">
+              <div className={`text-2xl font-bold ${item.color}`}>{item.count}</div>
+              <div className="text-xs text-muted-foreground">{item.label}</div>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+      {isEmpty && (
+        <Card className="glass-card border-dashed border-white/10">
+          <CardContent className="flex flex-col items-center justify-center py-12">
+            <Heart className="w-12 h-12 text-muted-foreground/30 mb-4" />
+            <p className="text-muted-foreground text-center">No medical information recorded.</p>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+};
+
+export default MedicalDashboard;
