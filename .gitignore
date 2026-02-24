@@ -11,7 +11,12 @@ node_modules
 dist
 dist-ssr
 *.local
+
+# Lock files - let build system generate
 package-lock.json
+pnpm-lock.yaml
+yarn.lock
+bun.lockb
 
 # Editor directories and files
 .vscode/*
