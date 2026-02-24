@@ -117,16 +117,20 @@ const Index = () => {
 
         <div className="flex-1 flex flex-col h-screen">
           <header className="flex-shrink-0 glass-card rounded-none border-x-0 border-t-0 px-4 py-3 flex items-center justify-between">
-            <div className="flex items-center">
-              <Button variant="ghost" size="sm" onClick={() => setSidebarOpen(true)} className="lg:hidden mr-2 hover:bg-white/5 text-muted-foreground">
+            <div className="flex items-center gap-3">
+              <Button variant="ghost" size="sm" onClick={() => setSidebarOpen(true)} className="lg:hidden text-muted-foreground/70 hover:text-foreground hover:bg-white/8 rounded-lg transition-all">
                 <Menu className="w-5 h-5" />
               </Button>
-              <img src={rakshithShield} alt="Rakshith Shield" className="h-8 w-8 mr-2" />
-              <span className="text-lg sm:text-xl font-bold text-primary whitespace-nowrap">RAKSHITH 360</span>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-gradient-to-br from-primary/30 to-primary/10 rounded-lg flex items-center justify-center border border-primary/20">
+                  <img src={rakshithShield} alt="Rakshith Shield" className="h-5 w-5" />
+                </div>
+                <span className="text-base sm:text-lg font-bold text-primary/95">Rakshith 360</span>
+              </div>
             </div>
-            <div className="flex items-center space-x-2 sm:space-x-3">
-              <span className="text-xs sm:text-sm text-muted-foreground hidden sm:block">{user.email}</span>
-              <Button variant="ghost" size="sm" onClick={logout} className="text-muted-foreground hover:text-foreground hover:bg-white/5 press-scale">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <span className="text-xs sm:text-sm text-muted-foreground/70 hidden sm:block">{user.email}</span>
+              <Button variant="ghost" size="sm" onClick={logout} className="text-muted-foreground/70 hover:text-foreground hover:bg-white/8 rounded-lg transition-all press-scale">
                 <LogOut className="w-4 h-4" />
               </Button>
             </div>
@@ -151,17 +155,23 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center relative overflow-hidden">
-      <div className="ambient-glow w-96 h-96 bg-primary -top-48 -right-48" />
-      <div className="text-center text-foreground relative z-10">
-        <h1 className="text-2xl font-bold mb-4">Welcome to Rakshith 360</h1>
-        <p className="mb-2 text-muted-foreground">User: {user.email}</p>
-        {error && <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded-xl text-destructive">{error}</div>}
-        <div className="space-y-3">
-          <Button onClick={handleStartChat} disabled={loadingSessions} className="w-full max-w-xs bg-primary hover:bg-primary/90 text-primary-foreground press-scale">
+      {/* Subtle ambient glows */}
+      <div className="ambient-glow w-80 h-80 bg-primary/30 -top-40 -right-32" />
+      <div className="ambient-glow w-72 h-72 bg-primary/20 -bottom-32 -left-36" />
+      <div className="text-center text-foreground relative z-10 px-4">
+        <div className="mb-8 w-24 h-24 mx-auto rounded-2xl flex items-center justify-center border border-primary/30 bg-gradient-to-br from-primary/25 to-primary/10 shadow-lg shadow-primary/10">
+          <img src={rakshithShield} alt="Rakshith" className="w-14 h-14" />
+        </div>
+        <h1 className="text-4xl font-bold mb-3 text-balance">Welcome to Rakshith AI</h1>
+        <p className="mb-2 text-muted-foreground/80 max-w-sm mx-auto leading-relaxed">Your intelligent medical guidance assistant. Start a consultation for personalized health insights.</p>
+        <p className="mb-8 text-sm text-muted-foreground/60">{user.email}</p>
+        {error && <div className="mb-6 p-4 bg-destructive/10 border border-destructive/20 rounded-xl text-destructive/90 text-sm">{error}</div>}
+        <div className="space-y-3 flex flex-col items-center">
+          <Button onClick={handleStartChat} disabled={loadingSessions} className="w-full max-w-xs bg-gradient-to-r from-primary to-primary/90 hover:from-primary/95 hover:to-primary/85 text-primary-foreground press-scale rounded-lg py-3 font-semibold shadow-lg shadow-primary/20 transition-all duration-200">
             {loadingSessions ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <MessageCircle className="w-4 h-4 mr-2" />}
             {loadingSessions ? 'Loading...' : 'Start Medical Chat'}
           </Button>
-          <Button onClick={logout} variant="outline" className="w-full max-w-xs text-foreground border-white/10 hover:bg-white/5 press-scale">
+          <Button onClick={logout} variant="outline" className="w-full max-w-xs text-foreground border border-white/10 hover:bg-white/5 rounded-lg py-3 font-semibold transition-all press-scale">
             <LogOut className="w-4 h-4 mr-2" /> Logout
           </Button>
         </div>

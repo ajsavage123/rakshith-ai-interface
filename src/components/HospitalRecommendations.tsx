@@ -66,32 +66,34 @@ const HospitalRecommendations = ({ specialty, userLocation, summary }: HospitalR
   );
 
   return (
-    <div className="w-full space-y-3 p-2">
-      {specialty && <div className="text-xs text-primary bg-primary/10 p-2 rounded-xl flex items-center gap-1"><AlertCircle className="w-3 h-3" /><span>Showing hospitals for: <strong>{specialty}</strong></span></div>}
-      {currentLocation && <div className="text-xs text-success bg-success/10 p-2 rounded-xl flex items-center gap-1"><MapPin className="w-3 h-3" /><span>{locationName ? `Near: ${locationName}` : `Near: ${currentLocation.lat.toFixed(4)}, ${currentLocation.lng.toFixed(4)}`}</span></div>}
-      <div className="flex gap-2">
-        <input type="text" value={manualLocation} onChange={e => setManualLocation(e.target.value)} placeholder="Enter address or lat,lng" className="flex-1 rounded-xl border border-white/10 px-3 py-2 text-xs bg-secondary/50 text-foreground" />
-        <Button size="sm" onClick={handleManualSearch} disabled={searching || !manualLocation.trim()} className="bg-primary text-primary-foreground rounded-xl text-xs press-scale"><Search className="w-3 h-3 mr-1" />Search</Button>
+    <div className="w-full space-y-4 p-1">
+      {specialty && <div className="text-xs text-primary/90 bg-primary/12 border border-primary/20 px-3 py-2.5 rounded-lg flex items-center gap-2 font-medium"><AlertCircle className="w-4 h-4 flex-shrink-0" /><span>Hospitals for: <strong>{specialty}</strong></span></div>}
+      {currentLocation && <div className="text-xs text-success/90 bg-success/12 border border-success/20 px-3 py-2.5 rounded-lg flex items-center gap-2 font-medium"><MapPin className="w-4 h-4 flex-shrink-0" /><span>{locationName ? `Located near: ${locationName}` : `Lat: ${currentLocation.lat.toFixed(4)}, Lng: ${currentLocation.lng.toFixed(4)}`}</span></div>}
+      <div className="flex gap-2.5">
+        <input type="text" value={manualLocation} onChange={e => setManualLocation(e.target.value)} placeholder="Enter address or coordinates" className="flex-1 rounded-lg border border-white/8 px-4 py-2.5 text-xs bg-white/5 text-foreground placeholder-muted-foreground/60 focus:border-primary/30 focus:outline-none transition-all" />
+        <Button size="sm" onClick={handleManualSearch} disabled={searching || !manualLocation.trim()} className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg text-xs font-medium press-scale transition-all"><Search className="w-3 h-3 mr-1" />Search</Button>
       </div>
       <div className="space-y-3">
         {sortedHospitals.length === 0 ? (
-          <div className="text-center text-muted-foreground py-6"><MapPin className="w-8 h-8 mx-auto mb-2 text-muted-foreground/50" /><p className="text-sm">No hospitals found</p></div>
+          <div className="text-center text-muted-foreground/70 py-8"><div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-3"><MapPin className="w-5 h-5 text-muted-foreground/40" /></div><p className="text-sm">No hospitals found for this specialty</p></div>
         ) : sortedHospitals.map((hospital, index) => (
-          <div key={`${hospital.name}-${index}`} className="glass-card p-4 space-y-2">
-            <h4 className="font-semibold text-foreground text-sm">{hospital.name}</h4>
-            <p className="text-xs text-muted-foreground">{hospital.address}</p>
-            <div className="flex items-center gap-3 text-xs text-muted-foreground">
-              {hospital.rating > 0 && <span className="flex items-center gap-1"><Star className="w-3 h-3 text-yellow-500" />{hospital.rating}</span>}
-              <span className="flex items-center gap-1"><MapPin className="w-3 h-3 text-primary" />{hospital.distance}</span>
+          <div key={`${hospital.name}-${index}`} className="glass-card p-5 space-y-3 border border-white/8 transition-all hover:shadow-lg hover:shadow-black/10">
+            <div>
+              <h4 className="font-semibold text-foreground text-sm leading-tight">{hospital.name}</h4>
+              <p className="text-xs text-muted-foreground/70 mt-1">{hospital.address}</p>
             </div>
-            <div className="flex flex-col gap-2 mt-2">
-              <Button size="sm" variant="outline" onClick={() => { if (hospital.phone && hospital.phone !== 'Phone not available') window.location.href = `tel:${hospital.phone}`; }}
-                disabled={!hospital.phone || hospital.phone === 'Phone not available'} className="w-full border-success/30 text-success hover:bg-success/10 rounded-xl text-xs press-scale">
-                <Phone className="w-3 h-3 mr-1" />{hospital.phone && hospital.phone !== 'Phone not available' ? 'Call' : 'Not Available'}
+            <div className="flex items-center gap-4 text-xs text-muted-foreground/80 pt-2 border-t border-white/8">
+              {hospital.rating > 0 && <span className="flex items-center gap-1"><Star className="w-3.5 h-3.5 text-yellow-400" />{hospital.rating}</span>}
+              <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5 text-primary" />{hospital.distance}</span>
+            </div>
+            <div className="flex flex-col gap-2.5 pt-1">
+              <Button size="sm" onClick={() => { if (hospital.phone && hospital.phone !== 'Phone not available') window.location.href = `tel:${hospital.phone}`; }}
+                disabled={!hospital.phone || hospital.phone === 'Phone not available'} className="w-full bg-gradient-to-r from-success/20 to-success/10 border border-success/25 text-success hover:from-success/30 hover:to-success/15 rounded-lg text-xs font-medium press-scale transition-all">
+                <Phone className="w-3 h-3 mr-1.5" />{hospital.phone && hospital.phone !== 'Phone not available' ? 'Call Hospital' : 'Phone Not Available'}
               </Button>
-              <Button size="sm" variant="outline" onClick={() => { const query = encodeURIComponent(`${hospital.name} ${hospital.address}`); window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank'); }}
-                className="w-full border-primary/30 text-primary hover:bg-primary/10 rounded-xl text-xs press-scale">
-                <MapPin className="w-3 h-3 mr-1" />View on Map
+              <Button size="sm" onClick={() => { const query = encodeURIComponent(`${hospital.name} ${hospital.address}`); window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank'); }}
+                className="w-full bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/25 text-primary hover:from-primary/30 hover:to-primary/15 rounded-lg text-xs font-medium press-scale transition-all">
+                <Navigation className="w-3 h-3 mr-1.5" />View on Map
               </Button>
             </div>
           </div>

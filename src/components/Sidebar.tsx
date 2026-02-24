@@ -38,47 +38,56 @@ const Sidebar = ({ onClose, sessions, onNewChat, onSelectSession, onDeleteSessio
   ];
 
   return (
-    <div className="h-full w-64 bg-sidebar text-sidebar-foreground flex flex-col border-r border-white/5">
-      <div className="p-4 border-b border-white/5 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-foreground">Rakshith AI</h2>
-        <Button variant="ghost" size="sm" onClick={onClose} className="lg:hidden text-muted-foreground hover:text-foreground hover:bg-white/5">
+    <div className="h-full w-64 bg-sidebar text-sidebar-foreground flex flex-col border-r border-white/8 backdrop-blur-xl">
+      <div className="px-6 py-5 border-b border-white/8 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-gradient-to-br from-primary/40 to-primary/10 rounded-lg flex items-center justify-center border border-primary/20">
+            <span className="text-primary font-bold text-sm">R</span>
+          </div>
+          <h2 className="text-base font-semibold text-foreground">Rakshith</h2>
+        </div>
+        <Button variant="ghost" size="sm" onClick={onClose} className="lg:hidden text-muted-foreground hover:text-foreground hover:bg-white/8 rounded-lg">
           <X className="w-4 h-4" />
         </Button>
       </div>
 
-      <div className="p-4">
-        <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-200 press-scale rounded-xl" onClick={() => { setActiveItem("new-chat"); onNewChat(); }}>
+      <div className="p-4 space-y-3">
+        <Button className="w-full bg-gradient-to-r from-primary to-primary/90 hover:from-primary/95 hover:to-primary/85 text-primary-foreground transition-all duration-300 press-scale rounded-lg font-medium shadow-lg shadow-primary/20" onClick={() => { setActiveItem("new-chat"); onNewChat(); }}>
           <MessageSquarePlus className="w-4 h-4 mr-2" /> New Chat
         </Button>
       </div>
 
-      <nav className="flex-1 px-2 overflow-y-auto">
-        <div className="mb-4">
-          <div className="flex items-center mb-2 text-muted-foreground font-semibold text-xs uppercase tracking-wider px-2">
-            <History className="w-4 h-4 mr-2" /> Chat History
+      <nav className="flex-1 px-3 overflow-y-auto scrollbar-hide">
+        <div className="mb-6">
+          <div className="flex items-center mb-3 text-muted-foreground/70 font-semibold text-xs uppercase tracking-wider px-3">
+            <History className="w-3.5 h-3.5 mr-2" /> History
           </div>
-          <div className="space-y-1 max-h-48 overflow-y-auto scrollbar-hide">
-            {sessions.length === 0 && <div className="text-muted-foreground text-xs px-2 py-1">No previous chats</div>}
+          <div className="space-y-1.5 max-h-48 overflow-y-auto scrollbar-hide">
+            {sessions.length === 0 && <div className="text-muted-foreground/60 text-xs px-3 py-2">No chats yet</div>}
             {sessions.map(session => (
               <div key={session.id} className="flex items-center group">
                 <button onClick={() => { setActiveItem("history"); onSelectSession(session.id); }}
-                  className={`flex-1 text-left px-3 py-2 rounded-xl transition-all duration-200 hover:bg-white/5 text-foreground text-sm ${currentSessionId === session.id ? 'bg-white/10 font-medium' : ''}`}>
-                  <div className="flex items-center justify-between">
-                    <span className="truncate">
+                  className={`flex-1 text-left px-3 py-2.5 rounded-lg transition-all duration-200 text-foreground text-sm
+                  ${currentSessionId === session.id 
+                    ? 'bg-primary/15 border border-primary/30 font-medium shadow-md shadow-primary/5' 
+                    : 'hover:bg-white/6 border border-transparent hover:border-white/8'
+                  }`}>
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="truncate text-sm">
                       {(() => {
                         const firstUserMessage = session.messages.find(msg => msg.sender === 'user');
-                        if (firstUserMessage?.text) return firstUserMessage.text.slice(0, 30) + (firstUserMessage.text.length > 30 ? '...' : '');
-                        return session.messages[0]?.text?.slice(0, 30) + (session.messages[0]?.text?.length > 30 ? '...' : '') || 'Chat';
+                        if (firstUserMessage?.text) return firstUserMessage.text.slice(0, 25) + (firstUserMessage.text.length > 25 ? '...' : '');
+                        return session.messages[0]?.text?.slice(0, 25) + (session.messages[0]?.text?.length > 25 ? '...' : '') || 'Chat';
                       })()}
                     </span>
-                    <span className="text-xs text-muted-foreground ml-2">
-                      {session.createdAt instanceof Date ? session.createdAt.toLocaleDateString() : new Date(session.createdAt).toLocaleDateString()}
-                    </span>
                   </div>
+                  <span className="text-xs text-muted-foreground/60 mt-1 block">
+                    {session.createdAt instanceof Date ? session.createdAt.toLocaleDateString() : new Date(session.createdAt).toLocaleDateString()}
+                  </span>
                 </button>
                 {isMobile && (
-                  <button onClick={() => setDeleteModalSessionId(session.id)} className="ml-2 p-1 text-muted-foreground hover:text-destructive">
-                    <Trash2 className="w-4 h-4" />
+                  <button onClick={() => setDeleteModalSessionId(session.id)} className="ml-2 p-1.5 text-muted-foreground/60 hover:text-destructive/80 transition-colors">
+                    <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 )}
               </div>
@@ -88,15 +97,16 @@ const Sidebar = ({ onClose, sessions, onNewChat, onSelectSession, onDeleteSessio
 
         {menuItems.slice(2).map((item) => (
           <button key={item.id} onClick={() => { setActiveItem(item.id); if (item.id === 'settings') setShowSettings(true); }}
-            className={`w-full flex items-center px-3 py-2 mb-1 rounded-xl transition-all duration-200 hover:bg-white/5 ${activeItem === item.id ? 'bg-white/10' : ''} text-foreground`}>
-            <item.icon className="w-4 h-4 mr-3 text-muted-foreground" />
-            <span className="text-sm">{item.label}</span>
+            className={`w-full flex items-center px-3 py-2.5 mb-1 rounded-lg transition-all duration-200 text-foreground text-sm
+            ${activeItem === item.id ? 'bg-white/8 border border-white/12' : 'hover:bg-white/5 border border-transparent'}`}>
+            <item.icon className="w-4 h-4 mr-3 text-muted-foreground/70" />
+            <span>{item.label}</span>
           </button>
         ))}
       </nav>
 
-      <div className="p-4 border-t border-white/5">
-        <div className="text-xs text-muted-foreground">Rakshith AI v1.0</div>
+      <div className="px-6 py-4 border-t border-white/8 space-y-2">
+        <div className="text-xs text-muted-foreground/60 font-medium">Rakshith AI v1.0</div>
       </div>
 
       {deleteModalSessionId && (

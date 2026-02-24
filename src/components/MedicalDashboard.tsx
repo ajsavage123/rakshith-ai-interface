@@ -41,30 +41,39 @@ const MedicalDashboard: React.FC = () => {
   const isEmpty = !medicalData.allergies.length && !medicalData.medications.length && !medicalData.conditions.length && !medicalData.vaccinations.length;
 
   return (
-    <div className="w-full space-y-6">
-      <Card className="glass-card border-primary/20">
-        <CardHeader>
-          <CardTitle className="text-xl flex items-center gap-2 text-foreground"><Heart className="w-5 h-5 text-destructive" />Medical Profile</CardTitle>
-          <CardDescription className="text-muted-foreground">Your health overview</CardDescription>
+    <div className="w-full space-y-8">
+      <Card className="glass-card border-white/10">
+        <CardHeader className="pb-6">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 bg-gradient-to-br from-destructive/30 to-destructive/10 rounded-xl flex items-center justify-center border border-destructive/20">
+              <Heart className="w-5 h-5 text-destructive" />
+            </div>
+            <div>
+              <CardTitle className="text-xl text-foreground">Medical Profile</CardTitle>
+              <CardDescription className="text-muted-foreground/70">Your health overview</CardDescription>
+            </div>
+          </div>
         </CardHeader>
-        <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[{ label: 'Allergies', count: medicalData.allergies.length, color: 'text-primary' },
-            { label: 'Medications', count: medicalData.medications.length, color: 'text-yellow-400' },
-            { label: 'Conditions', count: medicalData.conditions.length, color: 'text-destructive' },
-            { label: 'Vaccinations', count: medicalData.vaccinations.length, color: 'text-success' }
+        <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-5">
+          {[{ label: 'Allergies', count: medicalData.allergies.length, color: 'text-primary', bgColor: 'from-primary/25 to-primary/10', borderColor: 'border-primary/20' },
+            { label: 'Medications', count: medicalData.medications.length, color: 'text-yellow-400', bgColor: 'from-yellow-500/25 to-yellow-500/10', borderColor: 'border-yellow-500/20' },
+            { label: 'Conditions', count: medicalData.conditions.length, color: 'text-destructive', bgColor: 'from-destructive/25 to-destructive/10', borderColor: 'border-destructive/20' },
+            { label: 'Vaccinations', count: medicalData.vaccinations.length, color: 'text-success', bgColor: 'from-success/25 to-success/10', borderColor: 'border-success/20' }
           ].map(item => (
-            <div key={item.label} className="glass-card p-3 rounded-xl">
-              <div className={`text-2xl font-bold ${item.color}`}>{item.count}</div>
-              <div className="text-xs text-muted-foreground">{item.label}</div>
+            <div key={item.label} className={`glass-card bg-gradient-to-br ${item.bgColor} border ${item.borderColor} p-5 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-black/10`}>
+              <div className={`text-3xl font-bold ${item.color} mb-2`}>{item.count}</div>
+              <div className="text-xs font-medium text-muted-foreground/80">{item.label}</div>
             </div>
           ))}
         </CardContent>
       </Card>
       {isEmpty && (
-        <Card className="glass-card border-dashed border-white/10">
-          <CardContent className="flex flex-col items-center justify-center py-12">
-            <Heart className="w-12 h-12 text-muted-foreground/30 mb-4" />
-            <p className="text-muted-foreground text-center">No medical information recorded.</p>
+        <Card className="glass-card border-dashed border-white/8">
+          <CardContent className="flex flex-col items-center justify-center py-16">
+            <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mb-4">
+              <Heart className="w-6 h-6 text-muted-foreground/40" />
+            </div>
+            <p className="text-muted-foreground/70 text-center text-sm">No medical information recorded yet.</p>
           </CardContent>
         </Card>
       )}
