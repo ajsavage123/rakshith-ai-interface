@@ -374,47 +374,48 @@ const ChatArea = ({ sessionId, onUpdateSession }: ChatAreaProps) => {
   return (
     <div className="h-full flex flex-col bg-background">
       {/* Header */}
-      <div className="flex-shrink-0 glass-card rounded-none border-x-0 border-t-0 p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-primary/20 rounded-2xl flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-primary" />
+      <div className="flex-shrink-0 glass-card rounded-none border-x-0 border-t-0 px-6 py-4 backdrop-blur-xl">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-primary/30 to-primary/10 rounded-2xl flex items-center justify-center flex-shrink-0 border border-primary/20">
+              <Sparkles className="w-6 h-6 text-primary" />
             </div>
-            <div className="flex items-center gap-2 w-full">
-              <div>
-                <h2 className="font-semibold text-foreground">Rakshith AI</h2>
-                <p className="text-xs text-success">● Online</p>
-              </div>
-              <div className="flex-1" />
-              <button
-                className="ml-4 relative flex items-center gap-1 px-3 py-1 rounded-xl text-[11px] font-bold text-success border border-success/30 press-scale shine-flash"
-                style={{ background: 'linear-gradient(90deg, hsl(var(--background)) 0%, hsl(var(--background)) 40%, hsl(160 84% 39% / 0.15) 100%)' }}
-                onClick={() => setFlashMode(true)}
-              >
-                <svg className="w-3 h-3 mr-1 text-success" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                Flash Mode
-                <span className="absolute left-0 top-0 w-full h-full pointer-events-none overflow-hidden rounded-xl"><span className="shine absolute left-[-75%] top-0 w-1/2 h-full bg-gradient-to-r from-white/30 to-transparent opacity-60 rotate-12" /></span>
-              </button>
+            <div>
+              <h2 className="font-semibold text-foreground text-lg">Rakshith AI</h2>
+              <p className="text-xs text-success/80 flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
+                Online & Ready
+              </p>
             </div>
           </div>
+          <div className="flex-1" />
+          <button
+            className="relative flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold text-success border border-success/40 press-scale shine-flash transition-all duration-200 hover:border-success/60 hover:bg-success/5"
+            style={{ background: 'linear-gradient(90deg, hsl(var(--background)) 0%, hsl(var(--background)) 40%, hsl(162 80% 45% / 0.08) 100%)' }}
+            onClick={() => setFlashMode(true)}
+          >
+            <svg className="w-4 h-4 text-success" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+            <span>Flash Mode</span>
+            <span className="absolute left-0 top-0 w-full h-full pointer-events-none overflow-hidden rounded-lg"><span className="shine absolute left-[-75%] top-0 w-1/2 h-full bg-gradient-to-r from-white/20 to-transparent opacity-40 rotate-12" /></span>
+          </button>
         </div>
       </div>
 
       {/* Messages */}
-      <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div ref={chatContainerRef} className="flex-1 overflow-y-auto px-6 py-6 space-y-5 bg-gradient-to-b from-background/50 to-background">
         {messages.map((message, idx) => {
           const isUrgencyLevel = message.summaryType?.toLowerCase().includes('urgency level');
           return (
             <React.Fragment key={message.id}>
-              <div className={`flex items-start space-x-3 ${message.sender === "user" ? "justify-end" : "justify-start"}`}>
+              <div className={`flex items-start gap-4 ${message.sender === "user" ? "justify-end" : "justify-start"}`}>
                 {message.sender === "ai" && (
-                  <div className="w-7 h-7 bg-primary/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Bot className="w-4 h-4 text-primary" />
+                  <div className="w-10 h-10 bg-gradient-to-br from-primary/40 to-primary/10 rounded-2xl flex items-center justify-center flex-shrink-0 border border-primary/20">
+                    <Bot className="w-5 h-5 text-primary" />
                   </div>
                 )}
-                <div className={`max-w-[65vw] sm:max-w-xs lg:max-w-md rounded-2xl px-3 py-2 text-xs break-words transition-all duration-200 ${
+                <div className={`max-w-[65vw] sm:max-w-xs lg:max-w-md rounded-2xl px-5 py-4 text-sm break-words transition-all duration-300 ${
                   message.showHospitals ? "glass-card" :
-                  message.sender === "user" ? "bg-primary/10 border border-primary/20 text-foreground" :
+                  message.sender === "user" ? "bg-primary/15 border border-primary/25 text-foreground shadow-lg shadow-primary/5" :
                   "glass-card text-foreground animate-fade-in"
                 }`}>
                   {message.isInteractive ? (
@@ -454,18 +455,18 @@ const ChatArea = ({ sessionId, onUpdateSession }: ChatAreaProps) => {
       </div>
 
       {/* Input */}
-      <div className="flex-shrink-0 glass-card rounded-none border-x-0 border-b-0 p-4">
-        <div className="flex space-x-3 items-end">
+      <div className="flex-shrink-0 glass-card rounded-none border-x-0 border-b-0 px-6 py-5 backdrop-blur-xl">
+        <div className="flex gap-4 items-end">
           <div className="flex-1">
             <Input ref={mainInputRef} value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyPress={handleKeyPress} placeholder={inputPlaceholder}
-              className="bg-secondary/50 border-white/10 text-foreground placeholder-muted-foreground rounded-xl px-4 py-3" disabled={isTyping} />
+              className="bg-secondary/40 border border-white/8 text-foreground placeholder-muted-foreground/70 rounded-xl px-5 py-3.5 text-sm focus:border-primary/30 focus:outline-none transition-all duration-200" disabled={isTyping} />
           </div>
           <Button onClick={handleSendMessage} disabled={!inputValue.trim() || isTyping}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-6 py-3 press-scale">
+            className="bg-primary hover:bg-primary/95 text-primary-foreground rounded-xl px-7 py-3.5 press-scale font-medium shadow-lg shadow-primary/20 disabled:shadow-none transition-all duration-200">
             <Send className="w-5 h-5" />
           </Button>
         </div>
-        <p className="text-[10px] text-muted-foreground mt-1 text-center">Rakshith AI may provide inaccurate information if you don't provide precise details.</p>
+        <p className="text-xs text-muted-foreground/60 mt-3 text-center leading-relaxed">Rakshith AI provides medical guidance based on information you provide. Always consult qualified healthcare professionals.</p>
       </div>
 
       {flashMode && (

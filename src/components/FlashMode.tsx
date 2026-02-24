@@ -72,28 +72,35 @@ const FlashMode: React.FC<FlashModeProps> = ({ onExit }) => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen w-full p-2 sm:p-4">
-      <Card className="w-full max-w-[95vw] sm:max-w-sm glass-card border-success/20 rounded-2xl overflow-hidden max-h-[95vh] sm:max-h-[90vh] flex flex-col">
-        <CardContent className="p-3 sm:p-6 pb-0">
-          <div className="flex items-center justify-between mb-3">
-            <span className="flex items-center gap-2 text-base sm:text-lg font-bold text-success"><Zap className="w-4 h-4 sm:w-5 sm:h-5 text-success" /> Flash Mode</span>
-            <Button size="icon" variant="ghost" onClick={onExit} className="text-muted-foreground hover:text-destructive h-8 w-8 press-scale"><X className="w-4 h-4" /></Button>
+    <div className="flex items-center justify-center min-h-screen w-full p-3 sm:p-4">
+      <Card className="w-full max-w-[95vw] sm:max-w-lg glass-card border-success/20 rounded-2xl overflow-hidden max-h-[95vh] sm:max-h-[90vh] flex flex-col shadow-2xl shadow-success/10">
+        <CardContent className="p-6 sm:p-8 pb-0">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-success/30 to-success/10 rounded-xl flex items-center justify-center border border-success/25">
+                <Zap className="w-5 h-5 text-success" />
+              </div>
+              <span className="text-lg font-bold text-foreground">Flash Mode</span>
+            </div>
+            <Button size="icon" variant="ghost" onClick={onExit} className="text-muted-foreground/70 hover:text-destructive/80 hover:bg-white/8 h-8 w-8 press-scale rounded-lg transition-all">
+              <X className="w-4 h-4" />
+            </Button>
           </div>
           {!summary && (
             <>
-              <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-                <input type="text" className="rounded-xl border border-success/30 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-success/50 bg-secondary/50 text-foreground placeholder:text-muted-foreground placeholder:italic" placeholder={placeholder} value={input} onChange={e => setInput(e.target.value)} disabled={loading} autoFocus />
-                <Button type="submit" className="bg-success hover:bg-success/90 text-success-foreground font-semibold flex items-center gap-2 justify-center py-2 rounded-xl press-scale" disabled={loading || !input.trim()}>
-                  <Send className="w-4 h-4" /> Submit
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                <input type="text" className="rounded-lg border border-white/8 px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-success/40 focus:border-transparent bg-white/5 text-foreground placeholder:text-muted-foreground/60 placeholder:italic transition-all duration-200" placeholder={placeholder} value={input} onChange={e => setInput(e.target.value)} disabled={loading} autoFocus />
+                <Button type="submit" className="bg-gradient-to-r from-success to-success/90 hover:from-success/95 hover:to-success/85 text-success-foreground font-semibold flex items-center gap-2 justify-center py-3 rounded-lg press-scale transition-all shadow-lg shadow-success/20" disabled={loading || !input.trim()}>
+                  <Send className="w-4 h-4" /> Analyze Now
                 </Button>
               </form>
-              <div className="mt-2 text-xs text-center text-yellow-400 bg-yellow-500/10 rounded-xl px-2 py-1">Flash Mode may make mistakes without complete details.</div>
+              <div className="mt-4 text-xs text-center text-yellow-400/90 bg-yellow-500/10 border border-yellow-500/20 rounded-lg px-3 py-2.5 font-medium">Flash Mode provides quick analysis. Consult healthcare professionals for critical situations.</div>
             </>
           )}
           {summary && !loading && (
             <>
-              <div className="w-full mb-2 p-2 rounded-xl bg-success/5 border border-success/20 text-xs text-foreground"><span className="font-semibold text-success">Your input:</span> {input}</div>
-              <div className="w-full mb-2 text-xs text-center text-yellow-400 bg-yellow-500/10 rounded-xl px-2 py-1">Flash Mode may make mistakes without complete details.</div>
+              <div className="w-full mb-4 p-4 rounded-lg bg-success/8 border border-success/25 text-sm text-foreground/90"><span className="font-semibold text-success">Your input: </span> {input}</div>
+              <div className="w-full mb-4 text-xs text-center text-yellow-400/90 bg-yellow-500/10 border border-yellow-500/20 rounded-lg px-3 py-2.5 font-medium">Flash Mode provides quick analysis. Consult healthcare professionals for critical situations.</div>
             </>
           )}
         </CardContent>

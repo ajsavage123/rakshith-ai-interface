@@ -64,82 +64,85 @@ const LoginForm = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4 relative overflow-hidden">
-      {/* Ambient background glows */}
-      <div className="ambient-glow w-96 h-96 bg-primary -top-48 -left-48" />
-      <div className="ambient-glow w-80 h-80 bg-primary -bottom-40 -right-40" />
+      {/* Subtle ambient background glows */}
+      <div className="ambient-glow w-80 h-80 bg-primary/30 -top-40 -left-32" />
+      <div className="ambient-glow w-72 h-72 bg-primary/20 -bottom-32 -right-36" />
 
-      <Card className="w-full max-w-md glass-card border-white/10 relative z-10">
-        <CardHeader className="text-center">
-          <div className="mx-auto mb-4 w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, hsl(217 91% 60% / 0.2), hsl(217 91% 60% / 0.05))' }}>
-            <img src={rakshithShield} alt="Rakshith360 Shield" className="w-10 h-10" />
+      <Card className="w-full max-w-sm glass-card border-white/10 relative z-10 shadow-2xl shadow-primary/5">
+        <CardHeader className="text-center pt-8">
+          <div className="mx-auto mb-6 w-20 h-20 rounded-2xl flex items-center justify-center border border-primary/30 bg-gradient-to-br from-primary/25 to-primary/10">
+            <img src={rakshithShield} alt="Rakshith360 Shield" className="w-12 h-12" />
           </div>
-          <CardTitle className="text-2xl font-bold text-foreground">
+          <CardTitle className="text-3xl font-bold text-foreground">
             Rakshith AI
           </CardTitle>
-          <CardDescription className="text-muted-foreground">
-            Your Medical Assistant
+          <CardDescription className="text-muted-foreground/80 mt-2">
+            Medical Guidance Assistant
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pb-8">
           <Tabs value={isLogin ? "login" : "register"} onValueChange={(value) => setIsLogin(value === "login")}>
-            <TabsList className="grid w-full grid-cols-2 bg-secondary/50">
-              <TabsTrigger value="login" className="text-muted-foreground data-[state=active]:text-foreground data-[state=active]:bg-white/10">Login</TabsTrigger>
-              <TabsTrigger value="register" className="text-muted-foreground data-[state=active]:text-foreground data-[state=active]:bg-white/10">Register</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 bg-white/5 border border-white/8 rounded-lg p-1">
+              <TabsTrigger value="login" className="text-muted-foreground data-[state=active]:text-foreground data-[state=active]:bg-primary/15 data-[state=active]:border data-[state=active]:border-primary/30 rounded-md transition-all duration-200">Login</TabsTrigger>
+              <TabsTrigger value="register" className="text-muted-foreground data-[state=active]:text-foreground data-[state=active]:bg-primary/15 data-[state=active]:border data-[state=active]:border-primary/30 rounded-md transition-all duration-200">Register</TabsTrigger>
             </TabsList>
 
             {!showReset ? (
-              <form onSubmit={handleSubmit} className="space-y-4 mt-6">
+              <form onSubmit={handleSubmit} className="space-y-5 mt-8">
                 {!isLogin && (
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-muted-foreground">Name</label>
+                  <div className="space-y-2.5">
+                    <label className="text-sm font-semibold text-muted-foreground/80">Full Name</label>
                     <div className="relative">
-                      <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input type="text" placeholder="Enter your name" value={name} onChange={(e) => setName(e.target.value)} className="pl-10 bg-secondary/50 border-white/10 text-foreground placeholder-muted-foreground" required={!isLogin} />
+                      <User className="absolute left-4 top-3.5 h-5 w-5 text-muted-foreground/60" />
+                      <Input type="text" placeholder="Your full name" value={name} onChange={(e) => setName(e.target.value)} className="pl-12 bg-white/5 border border-white/8 text-foreground placeholder-muted-foreground/60 rounded-lg py-3 focus:border-primary/30 focus:outline-none transition-all duration-200" required={!isLogin} />
                     </div>
                   </div>
                 )}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-muted-foreground">Email</label>
+                <div className="space-y-2.5">
+                  <label className="text-sm font-semibold text-muted-foreground/80">Email Address</label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} className="pl-10 bg-secondary/50 border-white/10 text-foreground placeholder-muted-foreground" required />
+                    <Mail className="absolute left-4 top-3.5 h-5 w-5 text-muted-foreground/60" />
+                    <Input type="email" placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)} className="pl-12 bg-white/5 border border-white/8 text-foreground placeholder-muted-foreground/60 rounded-lg py-3 focus:border-primary/30 focus:outline-none transition-all duration-200" required />
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-muted-foreground">Password</label>
+                <div className="space-y-2.5">
+                  <label className="text-sm font-semibold text-muted-foreground/80">Password</label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} className="pl-10 bg-secondary/50 border-white/10 text-foreground placeholder-muted-foreground" required />
+                    <Lock className="absolute left-4 top-3.5 h-5 w-5 text-muted-foreground/60" />
+                    <Input type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} className="pl-12 bg-white/5 border border-white/8 text-foreground placeholder-muted-foreground/60 rounded-lg py-3 focus:border-primary/30 focus:outline-none transition-all duration-200" required />
                   </div>
                 </div>
                 {isLogin && (
-                  <div className="text-right">
-                    <button type="button" className="text-xs text-primary hover:underline" onClick={() => setShowReset(true)}>Forgot Password?</button>
+                  <div className="text-right pt-2">
+                    <button type="button" className="text-xs text-primary/80 hover:text-primary font-medium transition-colors" onClick={() => setShowReset(true)}>Forgot password?</button>
                   </div>
                 )}
                 {error && (
-                  <div className="text-destructive bg-destructive/10 border border-destructive/20 rounded-lg px-3 py-2 text-sm text-center">{error}</div>
+                  <div className="text-destructive bg-destructive/10 border border-destructive/20 rounded-lg px-4 py-3 text-sm text-center">{error}</div>
                 )}
-                <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground press-scale">
+                <Button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-primary to-primary/90 hover:from-primary/95 hover:to-primary/85 text-primary-foreground press-scale rounded-lg font-semibold py-3 shadow-lg shadow-primary/20 transition-all duration-200">
                   {loading ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin" />{isLogin ? 'Signing in...' : 'Creating account...'}</>) : (isLogin ? 'Sign In' : 'Create Account')}
                 </Button>
               </form>
             ) : (
-              <form onSubmit={handleResetPassword} className="space-y-4 mt-6">
-                <label className="text-sm font-medium text-muted-foreground block">Enter your email to reset password</label>
-                <Input type="email" placeholder="Enter your email" value={resetEmail} onChange={e => setResetEmail(e.target.value)} className="bg-secondary/50 border-white/10 text-foreground placeholder-muted-foreground" required />
-                {resetMessage && <div className="text-success bg-success/10 border border-success/20 rounded-lg px-3 py-2 text-xs text-center">{resetMessage}</div>}
-                {resetError && <div className="text-destructive bg-destructive/10 border border-destructive/20 rounded-lg px-3 py-2 text-xs text-center">{resetError}</div>}
-                <div className="flex gap-2">
-                  <Button type="submit" className="w-full press-scale" disabled={loading}>Send Reset Email</Button>
-                  <Button type="button" variant="outline" className="w-full border-white/10 text-foreground press-scale" onClick={() => { setShowReset(false); setResetEmail(''); setResetMessage(''); setResetError(''); }}>Cancel</Button>
+              <form onSubmit={handleResetPassword} className="space-y-5 mt-8">
+                <p className="text-sm text-muted-foreground/80">Enter your email address and we'll send you a password reset link.</p>
+                <div className="space-y-2.5">
+                  <label className="text-sm font-semibold text-muted-foreground/80">Email Address</label>
+                  <Input type="email" placeholder="your@email.com" value={resetEmail} onChange={e => setResetEmail(e.target.value)} className="bg-white/5 border border-white/8 text-foreground placeholder-muted-foreground/60 rounded-lg py-3 px-4 focus:border-primary/30 focus:outline-none transition-all duration-200" required />
+                </div>
+                {resetMessage && <div className="text-success bg-success/10 border border-success/20 rounded-lg px-4 py-3 text-sm text-center font-medium">{resetMessage}</div>}
+                {resetError && <div className="text-destructive bg-destructive/10 border border-destructive/20 rounded-lg px-4 py-3 text-sm text-center font-medium">{resetError}</div>}
+                <div className="flex gap-3">
+                  <Button type="submit" className="flex-1 bg-primary hover:bg-primary/95 text-primary-foreground rounded-lg font-semibold py-3 press-scale transition-all duration-200" disabled={loading}>Send Reset Link</Button>
+                  <Button type="button" variant="outline" className="flex-1 border border-white/10 text-foreground hover:bg-white/5 rounded-lg font-semibold py-3 press-scale transition-all duration-200" onClick={() => { setShowReset(false); setResetEmail(''); setResetMessage(''); setResetError(''); }}>Back</Button>
                 </div>
               </form>
             )}
 
-            <div className="mt-4 text-center">
-              <p className="text-xs text-muted-foreground">
-                Rakshith AI may provide inaccurate information if you don't provide precise details.
+            <div className="mt-6 pt-6 border-t border-white/8 text-center">
+              <p className="text-xs text-muted-foreground/70 leading-relaxed">
+                Rakshith AI is an educational tool. Always consult qualified healthcare professionals for medical advice.
               </p>
             </div>
           </Tabs>

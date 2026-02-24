@@ -25,29 +25,35 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
-      {/* Ambient glows */}
-      <div className="ambient-glow w-80 h-80 bg-primary -top-40 -right-40 animate-float" />
-      <div className="ambient-glow w-80 h-80 bg-primary -bottom-40 -left-40 animate-float animation-delay-300" />
+      {/* Subtle ambient glows */}
+      <div className="ambient-glow w-72 h-72 bg-primary/30 -top-32 -right-32 animate-float" />
+      <div className="ambient-glow w-64 h-64 bg-primary/20 -bottom-32 -left-32 animate-float animation-delay-300" />
 
-      <div className="relative z-10 w-full max-w-4xl mx-auto text-center flex flex-col items-center">
-        <img src={rakshithLogo} alt="Rakshith 360 Logo" className="mx-auto mb-6 sm:mb-8" style={{ width: '140px', height: '140px', objectFit: 'contain' }} />
+      <div className="relative z-10 w-full max-w-2xl mx-auto text-center flex flex-col items-center">
+        <div className="mb-8 sm:mb-10 w-24 h-24 rounded-2xl flex items-center justify-center border border-primary/30 bg-gradient-to-br from-primary/25 to-primary/10 shadow-lg shadow-primary/10">
+          <img src={rakshithLogo} alt="Rakshith 360" className="w-14 h-14" />
+        </div>
 
-        <div className="flex justify-center mb-6">
-          <div className="flex space-x-3">
+        <div className="flex justify-center mb-10">
+          <div className="flex gap-2.5">
             {steps.map((_, index) => (
-              <div key={index} className={`h-2 rounded-full transition-all duration-500 ${index === currentStep ? 'bg-primary w-8' : index < currentStep ? 'bg-primary/60 w-3' : 'bg-white/20 w-3'}`} />
+              <div key={index} className={`rounded-full transition-all duration-500 ${index === currentStep ? 'bg-primary/80 h-2.5 w-10' : index < currentStep ? 'bg-primary/40 h-2 w-2' : 'bg-white/15 h-2 w-2'}`} />
             ))}
           </div>
         </div>
 
-        <div className="mb-8 space-y-4 w-full px-2">
-          <div className="mx-auto mb-4">{currentStepData.icon}</div>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-foreground leading-tight">{currentStepData.title}</h1>
-          <p className="text-lg sm:text-xl font-semibold text-primary">{currentStepData.subtitle}</p>
-          <p className="text-base sm:text-lg text-muted-foreground max-w-md mx-auto">{currentStepData.content}</p>
+        <div className="mb-10 space-y-6 w-full px-4">
+          <div className="mx-auto mb-6 w-16 h-16 rounded-2xl flex items-center justify-center bg-white/5 border border-white/8">
+            {currentStepData.icon}
+          </div>
+          <div className="space-y-3">
+            <h1 className="text-3xl sm:text-4xl font-bold text-foreground leading-tight text-balance">{currentStepData.title}</h1>
+            <p className="text-lg font-semibold text-primary/90">{currentStepData.subtitle}</p>
+            <p className="text-base text-muted-foreground/80 max-w-md mx-auto leading-relaxed">{currentStepData.content}</p>
+          </div>
         </div>
 
-        <Button className="w-full max-w-xs py-3 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg press-scale" onClick={handleNext}>
+        <Button onClick={handleNext} className="w-full max-w-xs py-3.5 rounded-lg bg-gradient-to-r from-primary to-primary/90 hover:from-primary/95 hover:to-primary/85 text-primary-foreground font-semibold text-base press-scale shadow-lg shadow-primary/20 transition-all duration-200">
           {currentStep < steps.length - 1 ? 'Next →' : 'Get Started →'}
         </Button>
       </div>

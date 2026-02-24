@@ -29,10 +29,10 @@ const MedicalSummaryCard = ({ summary, summaryType }: MedicalSummaryCardProps) =
 
   const urgencyLevel = summaryType?.toLowerCase().includes('urgency') ? getUrgencyLevel(summary) : null;
   const getAccentColor = () => {
-    if (summaryType?.toLowerCase().includes('urgency')) return urgencyLevel === 'high' ? 'border-destructive/30 bg-destructive/5' : urgencyLevel === 'medium' ? 'border-yellow-500/30 bg-yellow-500/5' : 'border-success/30 bg-success/5';
-    if (summaryType?.toLowerCase().includes('first aid')) return 'border-destructive/30 bg-destructive/5';
-    if (summaryType?.toLowerCase().includes('investigation')) return 'border-success/30 bg-success/5';
-    return 'border-primary/30 bg-primary/5';
+    if (summaryType?.toLowerCase().includes('urgency')) return urgencyLevel === 'high' ? 'border-destructive/25 bg-destructive/8' : urgencyLevel === 'medium' ? 'border-yellow-500/25 bg-yellow-500/8' : 'border-success/25 bg-success/8';
+    if (summaryType?.toLowerCase().includes('first aid')) return 'border-destructive/25 bg-destructive/8';
+    if (summaryType?.toLowerCase().includes('investigation')) return 'border-success/25 bg-success/8';
+    return 'border-primary/25 bg-primary/8';
   };
 
   const getIcon = () => {
@@ -45,12 +45,14 @@ const MedicalSummaryCard = ({ summary, summaryType }: MedicalSummaryCardProps) =
 
   return (
     <div className="w-full">
-      <div className={`rounded-2xl border p-4 ${getAccentColor()}`}>
-        <div className="flex items-center gap-2 mb-3">
-          {getIcon()}
+      <div className={`rounded-lg border p-5 ${getAccentColor()} transition-all`}>
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+            {getIcon()}
+          </div>
           <span className="font-semibold text-sm text-foreground">{summaryType || 'Assessment'}</span>
         </div>
-        <div className="space-y-1">{formatContent(summary)}</div>
+        <div className="space-y-2 text-sm">{formatContent(summary)}</div>
       </div>
     </div>
   );
